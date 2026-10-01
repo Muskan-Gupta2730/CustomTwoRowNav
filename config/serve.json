@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://iproats.sharepoint.com/sites/SirvaDev/SitePages/Home.aspx",
+      "customActions": {
+        "7a0bc7ca-d676-4e6a-b1b1-12866f8f9a65": {
+          "location": "ClientSideExtension.ApplicationCustomizer"
+        }
+      }
+    },
+    "customTwoRowNav": {
+      "pageUrl": "https://iproats.sharepoint.com/sites/SirvaDev/SitePages/Home.aspx",
+      "customActions": {
+        "7a0bc7ca-d676-4e6a-b1b1-12866f8f9a65": {
+          "location": "ClientSideExtension.ApplicationCustomizer"
+        }
+      }
+    }
+  }
+}

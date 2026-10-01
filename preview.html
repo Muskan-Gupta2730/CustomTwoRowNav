@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sirva Modern Intranet - Two Row Navigation Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Reset & Variables */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --brand-navy: #112a4a;
+      --brand-navy-light: #2c496c;
+      --brand-blue: #0066b2;
+      --brand-blue-hover: #00508f;
+      --brand-active-bg: #eef4fa;
+      --brand-border: #e3e8ef;
+      --brand-subtle-border: #f0f3f7;
+      --brand-text-muted: #5e738d;
+      --shadow-dropdown: 0 16px 36px rgba(17, 42, 74, 0.12), 0 4px 12px rgba(17, 42, 74, 0.05);
+      --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: #f7f9fb;
+      color: var(--brand-navy);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Suite/Brand Bar */
+    .sirva-top-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--brand-border);
+      padding: 10px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .sirva-brand-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sirva-logo {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--brand-navy);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .sirva-logo sup {
+      font-size: 11px;
+      font-weight: 600;
+      top: -0.6em;
+      margin-left: 2px;
+    }
+
+    .sirva-brand-divider {
+      width: 1.5px;
+      height: 32px;
+      background-color: #ccd7e4;
+    }
+
+    .sirva-tagline {
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 500;
+      color: var(--brand-navy-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sirva-brand-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .sirva-search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .sirva-search-input {
+      width: 320px;
+      height: 38px;
+      padding: 0 16px 0 38px;
+      background: #f4f6f9;
+      border: 1px solid #dce2e9;
+      border-radius: 20px;
+      font-size: 13.5px;
+      font-family: inherit;
+      color: var(--brand-navy);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .sirva-search-input:focus {
+      background: #ffffff;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(0, 102, 178, 0.12);
+      width: 360px;
+    }
+
+    .sirva-search-icon {
+      position: absolute;
+      left: 12px;
+      color: #7b8e9f;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .sirva-util-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sirva-icon-btn {
+      background: transparent;
+      border: none;
+      color: #435b75;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .sirva-icon-btn:hover {
+      background: #edf2f7;
+      color: var(--brand-blue);
+    }
+
+    .sirva-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--brand-navy);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .sirva-user-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 3px 8px rgba(17, 42, 74, 0.2);
+    }
+
+    /* Main Two-Row Navigation Container */
+    .sirva-nav-container {
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      position: relative;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    /* Navigation Row Base */
+    .sirva-nav-row {
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+      position: relative;
+    }
+
+    /* Row 1: Primary Navigation */
+    .sirva-nav-row-primary {
+      height: 48px;
+      border-bottom: 1px solid var(--brand-border);
+      gap: 36px;
+    }
+
+    .sirva-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 100%;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--brand-navy);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      transition: color 0.15s ease;
+    }
+
+    .sirva-nav-link:hover {
+      color: var(--brand-blue);
+    }
+
+    /* Active Indicator on Row 1 (Home) */
+    .sirva-nav-link.active {
+      font-weight: 600;
+      color: var(--brand-navy);
+    }
+
+    .sirva-nav-link.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--brand-blue);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .sirva-nav-link .chevron {
+      transition: transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .sirva-nav-link:hover .chevron,
+    .sirva-nav-item-dropdown:hover .chevron,
+    .sirva-nav-item-dropdown.open .chevron {
+      transform: translateY(1.5px);
+    }
+
+    /* Row 2: Secondary Navigation */
+    .sirva-nav-row-secondary {
+      height: 46px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--brand-border);
+      gap: 28px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    /* Row 2 items */
+    .sirva-subnav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 16px;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--brand-navy);
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .sirva-subnav-btn:hover {
+      color: var(--brand-blue);
+      background-color: rgba(238, 244, 250, 0.6);
+    }
+
+    /* Active Tab in Row 2 (People) */
+    .sirva-subnav-btn.active-tab,
+    .sirva-nav-item-dropdown.active .sirva-subnav-btn,
+    .sirva-nav-item-dropdown.open .sirva-subnav-btn {
+      background-color: var(--brand-active-bg);
+      color: var(--brand-navy);
+      font-weight: 600;
+    }
+
+    /* Dropdown wrapper */
+    .sirva-nav-item-dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    /* Mega Menu Dropdown Panel */
+    .sirva-mega-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #ffffff;
+      min-width: 680px;
+      border: 1px solid #dce3ed;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      box-shadow: var(--shadow-dropdown);
+      padding: 30px 36px 36px 36px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 36px;
+      z-index: 1001;
+    }
+
+    /* Hover and Open state */
+    .sirva-nav-item-dropdown:hover .sirva-mega-menu,
+    .sirva-nav-item-dropdown.open .sirva-mega-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .sirva-mega-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sirva-mega-col-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--brand-navy);
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      letter-spacing: -0.2px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .sirva-mega-col-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sirva-mega-link {
+      font-size: 14px;
+      color: #38516d;
+      text-decoration: none;
+      font-weight: 400;
+      transition: all 0.15s ease;
+      display: inline-block;
+      line-height: 1.35;
+    }
+
+    .sirva-mega-link:hover {
+      color: var(--brand-blue);
+      transform: translateX(3px);
+    }
+
+    /* Hero Banner Demonstration (matching image) */
+    .hero-container {
+      position: relative;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 48px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 420px;
+      background: linear-gradient(90deg, #ffffff 42%, rgba(255, 255, 255, 0.88) 55%, rgba(255, 255, 255, 0) 75%),
+                  url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80') center right/cover no-repeat;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e1e7ee;
+      display: flex;
+      align-items: center;
+      padding: 60px;
+    }
+
+    .hero-content {
+      max-width: 520px;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--brand-navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #4a6382;
+      margin-bottom: 28px;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #0b3464;
+      color: #ffffff;
+      padding: 13px 26px;
+      border-radius: 6px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .hero-btn:hover {
+      background-color: var(--brand-blue);
+      transform: translateY(-1px);
+    }
+
+    .hero-tagline-badge {
+      position: absolute;
+      right: 48px;
+      bottom: 40px;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: left;
+      border-left: 3px solid var(--brand-blue);
+      padding-left: 12px;
+    }
+
+    /* Quick Links Bar below hero */
+    .quicklinks-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .quicklink-card {
+      background: #ffffff;
+      border: 1px solid #e5eaf0;
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--brand-navy);
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .quicklink-card:hover {
+      border-color: var(--brand-blue);
+      color: var(--brand-blue);
+      box-shadow: 0 6px 16px rgba(0, 102, 178, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .quicklink-icon {
+      font-size: 22px;
+      color: #0078d4;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sirva-top-header,
+      .sirva-nav-row,
+      .hero-container {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .sirva-nav-row-primary {
+        gap: 22px;
+      }
+      .sirva-nav-row-secondary {
+        gap: 16px;
+      }
+      .quicklinks-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sirva-search-wrapper {
+        display: none;
+      }
+      .sirva-nav-row {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .sirva-mega-menu {
+        min-width: 90vw;
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+      }
+      .quicklinks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. TOP HEADER / BRAND BAR -->
+  <header class="sirva-top-header">
+    <div class="sirva-brand-left">
+      <a href="#" class="sirva-logo">
+        SIRVA<sup>&reg;</sup>
+      </a>
+      <div class="sirva-brand-divider"></div>
+      <div class="sirva-tagline">
+        <span>People</span>
+        <span>Move</span>
+        <span>Possibilities</span>
+      </div>
+    </div>
+
+    <div class="sirva-brand-right">
+      <div class="sirva-search-wrapper">
+        <span class="sirva-search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="text" class="sirva-search-input" placeholder="Search across Sirva..." />
+      </div>
+
+      <div class="sirva-util-icons">
+        <button class="sirva-icon-btn" title="Notifications" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </button>
+        <button class="sirva-icon-btn" title="App launcher" aria-label="App launcher">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="5" cy="5" r="2"></circle>
+            <circle cx="12" cy="5" r="2"></circle>
+            <circle cx="19" cy="5" r="2"></circle>
+            <circle cx="5" cy="12" r="2"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+            <circle cx="19" cy="12" r="2"></circle>
+            <circle cx="5" cy="19" r="2"></circle>
+            <circle cx="12" cy="19" r="2"></circle>
+            <circle cx="19" cy="19" r="2"></circle>
+          </svg>
+        </button>
+        <div class="sirva-user-avatar" title="Jane Doe (JD)">
+          JD
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. TWO-ROW NAVIGATION -->
+  <nav class="sirva-nav-container" aria-label="Primary and Secondary Intranet Navigation">
+    
+    <!-- ROW 1: PRIMARY NAVIGATION -->
+    <div class="sirva-nav-row sirva-nav-row-primary">
+      <a href="#" class="sirva-nav-link active">Home</a>
+      
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-nav-link">
+          About
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-nav-link">
+          Life @ Sirva
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-nav-link">
+          My Country
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-nav-link">
+          Departments
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-nav-link">
+          Comms
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ROW 2: SECONDARY NAVIGATION (SUB-NAV) -->
+    <div class="sirva-nav-row sirva-nav-row-secondary">
+      
+      <!-- 'People' Item with Mega Menu -->
+      <div class="sirva-nav-item-dropdown active" id="dropdown-people">
+        <button class="sirva-subnav-btn active-tab" aria-haspopup="true" aria-expanded="false">
+          People
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- MEGA MENU PANEL -->
+        <div class="sirva-mega-menu" role="menu">
+          <!-- Column 1 -->
+          <div class="sirva-mega-col">
+            <h3 class="sirva-mega-col-title">Your People Team</h3>
+            <ul class="sirva-mega-col-links">
+              <li><a href="#" class="sirva-mega-link">HR Services</a></li>
+              <li><a href="#" class="sirva-mega-link">Benefits</a></li>
+              <li><a href="#" class="sirva-mega-link">Payroll</a></li>
+              <li><a href="#" class="sirva-mega-link">Policies</a></li>
+              <li><a href="#" class="sirva-mega-link">Wellbeing</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="sirva-mega-col">
+            <h3 class="sirva-mega-col-title">Leadership</h3>
+            <ul class="sirva-mega-col-links">
+              <li><a href="#" class="sirva-mega-link">Leaders Hub</a></li>
+              <li><a href="#" class="sirva-mega-link">Executive Messages</a></li>
+              <li><a href="#" class="sirva-mega-link">Leadership Resources</a></li>
+              <li><a href="#" class="sirva-mega-link">Our Values</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="sirva-mega-col">
+            <h3 class="sirva-mega-col-title">Global People</h3>
+            <ul class="sirva-mega-col-links">
+              <li><a href="#" class="sirva-mega-link">My Country</a></li>
+              <li><a href="#" class="sirva-mega-link">Diversity, Equity & Inclusion</a></li>
+              <li><a href="#" class="sirva-mega-link">People Programs</a></li>
+              <li><a href="#" class="sirva-mega-link">Recognition</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-subnav-btn">
+          Leaders
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-subnav-btn">
+          Learning
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-subnav-btn">
+          Careers
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="sirva-nav-item-dropdown">
+        <button class="sirva-subnav-btn">
+          News @ Sirva
+          <span class="chevron">
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 1L5 5L9 1"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- 3. HERO & QUICKLINKS SAMPLE FOR VISUAL CONTEXT -->
+  <main class="hero-container">
+    <section class="hero-card">
+      <div class="hero-content">
+        <h1 class="hero-title">Welcome to Sirva</h1>
+        <p class="hero-desc">A global community moving people, possibilities and progress.</p>
+        <a href="#" class="hero-btn">Explore Our Intranet &rarr;</a>
+      </div>
+      <div class="hero-tagline-badge">
+        People<br />Move<br />Possibilities
+      </div>
+    </section>
+
+    <!-- Quicklink Cards -->
+    <div class="quicklinks-grid">
+      <a href="#" class="quicklink-card">
+        <span class="quicklink-icon">👥</span>
+        <span>My Country</span>
+      </a>
+      <a href="#" class="quicklink-card">
+        <span class="quicklink-icon">📰</span>
+        <span>Latest News</span>
+      </a>
+      <a href="#" class="quicklink-card">
+        <span class="quicklink-icon">📖</span>
+        <span>Learn &amp; Grow</span>
+      </a>
+      <a href="#" class="quicklink-card">
+        <span class="quicklink-icon">💼</span>
+        <span>Careers at Sirva</span>
+      </a>
+      <a href="#" class="quicklink-card">
+        <span class="quicklink-icon">🎧</span>
+        <span>Need Help?</span>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    // Click toggle support for touch devices or accessibility
+    document.querySelectorAll('.sirva-nav-item-dropdown').forEach(dropdown => {
+      const btn = dropdown.querySelector('button');
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.contains('open');
+          document.querySelectorAll('.sirva-nav-item-dropdown').forEach(d => d.classList.remove('open'));
+          if (!isOpen && dropdown.querySelector('.sirva-mega-menu')) {
+            dropdown.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.sirva-nav-item-dropdown').forEach(d => {
+        d.classList.remove('open');
+        const b = d.querySelector('button');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>

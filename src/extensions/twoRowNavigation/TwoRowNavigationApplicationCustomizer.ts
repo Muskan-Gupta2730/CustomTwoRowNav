@@ -1,0 +1,3 @@
+import CustomTwoRowNavApplicationCustomizer from '../customTwoRowNav/CustomTwoRowNavApplicationCustomizer';
+
+export default CustomTwoRowNavApplicationCustomizer;

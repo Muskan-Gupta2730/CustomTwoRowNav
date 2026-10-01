@@ -1,0 +1,20 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "24.19.0",
+    "sdksVersions": {},
+    "version": "1.23.2",
+    "libraryName": "custom-two-row-nav",
+    "libraryId": "37a68145-f290-4580-83cb-678aef0fb3f3",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "custom-two-row-nav",
+    "solutionShortDescription": "custom-two-row-nav description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}

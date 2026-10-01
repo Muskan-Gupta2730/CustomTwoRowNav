@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="CustomTwoRowNav"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="7a0bc7ca-d676-4e6a-b1b1-12866f8f9a65"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>
